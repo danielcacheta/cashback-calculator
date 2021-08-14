@@ -11,12 +11,23 @@ In case you would like to use the same tools versions I'm using currently, you c
 
 For NVM users, the commands are:
 
-nvm install 14.17.5
-nvm use 14.17.5
+```sh
+$ nvm install 14.17.5
+$ nvm use 14.17.5
+```
 
 And to check if the correct version is enabled, you can run:
 
-node -v
-And it should display "v14.17.5" after the nvm steps
+```sh
+$ node -v
+```
 
 Run a "npm install" to download all dependencies
+It should display "v14.17.5" after the nvm steps
+
+Download all dependencies and start the project:
+
+```sh
+$ npm install
+$ npm start
+```
