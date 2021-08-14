@@ -1,0 +1,23 @@
+{
+  "name": "cashback-calculator",
+  "version": "1.0.0",
+  "description": "Provides the cashback amount for customer's transactions",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielcacheta/cashback-calculator.git"
+  },
+  "keywords": [
+    "cashback",
+    "nodejs"
+  ],
+  "author": "Daniel Cacheta",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danielcacheta/cashback-calculator/issues"
+  },
+  "homepage": "https://github.com/danielcacheta/cashback-calculator#readme"
+}
