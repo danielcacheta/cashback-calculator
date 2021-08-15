@@ -114,7 +114,7 @@
 			"response": []
 		},
 		{
-			"name": "CreateReseller",
+			"name": "Create Reseller",
 			"event": [
 				{
 					"listen": "test",
@@ -161,13 +161,13 @@
 			"response": []
 		},
 		{
-			"name": "DoNotAllowToCreateResellerWithDuplicateCPF",
+			"name": "Create Reseller - Do not allow with duplicate CPF",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Create Reseller\", function () {\r",
+							"pm.test(\"Create Reseller - Do not allow with duplicate CPF\", function () {\r",
 							"  pm.response.to.have.status(409)\r",
 							"  const responseJson = pm.response.json()\r",
 							"  pm.expect(responseJson.id).to.not.null\r",
@@ -205,13 +205,13 @@
 			"response": []
 		},
 		{
-			"name": "DoNotAllowToCreateResellerWithDuplicateEmail",
+			"name": "Create Reseller - Do not allow with duplicate e-mail",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Do not allow to create Reseller\", function () {\r",
+							"pm.test(\"Create Reseller - Do not allow with duplicate e-mail\", function () {\r",
 							"  pm.response.to.have.status(409)\r",
 							"  const responseJson = pm.response.json()\r",
 							"  pm.expect(responseJson.id).to.not.null\r",
@@ -249,18 +249,18 @@
 			"response": []
 		},
 		{
-			"name": "CreateNewReseller",
+			"name": "Create Reseller - Auto approved CPF",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Create New Reseller\", function () {\r",
+							"pm.test(\"Create Reseller - Auto approved CPF\", function () {\r",
 							"  pm.response.to.have.status(200)\r",
 							"  const responseJson = pm.response.json()\r",
 							"  pm.expect(responseJson.id).to.not.null\r",
-							"  pm.expect(responseJson.name).to.eql(\"Susan Smith PostmanTest\")\r",
-							"  pm.expect(responseJson.cpf).to.eql(\"12345678810\")\r",
+							"  pm.expect(responseJson.name).to.eql(\"Susan Smith Auto Approved PostmanTest\")\r",
+							"  pm.expect(responseJson.cpf).to.eql(\"77023697012\")\r",
 							"  pm.expect(responseJson.email).to.eql(\"susan.smith@email.com\")\r",
 							"  pm.expect(responseJson.password).to.not.eql(\"password\")\r",
 							"});"
@@ -274,7 +274,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Susan Smith PostmanTest\",\r\n    \"cpf\": \"123.456.788-10\",\r\n    \"email\": \"susan.smith@email.com\",\r\n    \"password\": \"password\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Susan Smith Auto Approved PostmanTest\",\r\n    \"cpf\": \"770.236.970-12\",\r\n    \"email\": \"susan.smith@email.com\",\r\n    \"password\": \"password\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -296,13 +296,13 @@
 			"response": []
 		},
 		{
-			"name": "Valid Login and Password",
+			"name": "Login - Valid  e-mail and password",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Create Reseller\", function () {\r",
+							"pm.test(\"Login - Valid  e-mail and password\", function () {\r",
 							"  pm.response.to.have.status(200)\r",
 							"  const responseJson = pm.response.json()\r",
 							"  pm.expect(responseJson.result).to.eql(\"User Authenticated\")\r",
@@ -339,13 +339,13 @@
 			"response": []
 		},
 		{
-			"name": "Invalid Password",
+			"name": "Login - Invalid password",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Create Reseller\", function () {\r",
+							"pm.test(\"Login - Invalid password\", function () {\r",
 							"  pm.response.to.have.status(401)\r",
 							"  const responseJson = pm.response.json()\r",
 							"  pm.expect(responseJson.result).to.eql(\"Unauthorized\")\r",
@@ -382,13 +382,13 @@
 			"response": []
 		},
 		{
-			"name": "Invalid Login",
+			"name": "Login - Invalid e-mail",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Create Reseller\", function () {\r",
+							"pm.test(\"Login - Invalid e-mail\", function () {\r",
 							"  pm.response.to.have.status(401)\r",
 							"  const responseJson = pm.response.json()\r",
 							"  pm.expect(responseJson.result).to.eql(\"Unauthorized\")\r",
@@ -425,7 +425,250 @@
 			"response": []
 		},
 		{
-			"name": "PostmanTestsCleanup",
+			"name": "Create Order for existing Reseller",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Order for existing Reseller\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.id).to.not.null\r",
+							"  pm.expect(responseJson.code).to.eql(\"A1B2BCPostmanTest\")\r",
+							"  pm.expect(Date(responseJson.date)).to.eql(Date(\"2021-08-15\"))\r",
+							"  pm.expect(responseJson.cpf).to.eql(\"12345678910\")\r",
+							"  pm.expect(responseJson.totalValue).to.eql(500.00)\r",
+							"  pm.expect(responseJson.state).to.eql('Em Validação')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"code\": \"A1B2BCPostmanTest\",\r\n    \"date\": \"2021-08-15\",\r\n    \"cpf\": \"123.456.789-10\",\r\n    \"totalValue\": 500.00\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/resellers/123.456.789-10/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers",
+						"123.456.789-10",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order for existing Reseller - Without dots and dash on CPF from URL",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Order for existing Reseller - Without dots and dash on CPF from URL\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.id).to.not.null\r",
+							"  pm.expect(responseJson.code).to.eql(\"A1B2BCPostmanTest\")\r",
+							"  pm.expect(Date(responseJson.date)).to.eql(Date(\"2021-08-15\"))\r",
+							"  pm.expect(responseJson.cpf).to.eql(\"12345678910\")\r",
+							"  pm.expect(responseJson.totalValue).to.eql(500.00)\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"code\": \"A1B2BCPostmanTest\",\r\n    \"date\": \"2021-08-15\",\r\n    \"cpf\": \"123.456.789-10\",\r\n    \"totalValue\": 500.00\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/resellers/12345678910/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers",
+						"12345678910",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order for existing Reseller - Without dots and dash on CPF from Request Body",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Order for existing Reseller - Without dots and dash on CPF from Request Body\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.id).to.not.null\r",
+							"  pm.expect(responseJson.code).to.eql(\"A1B2BCPostmanTest\")\r",
+							"  pm.expect(Date(responseJson.date)).to.eql(Date(\"2021-08-15\"))\r",
+							"  pm.expect(responseJson.cpf).to.eql(\"12345678910\")\r",
+							"  pm.expect(responseJson.totalValue).to.eql(500.00)\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"code\": \"A1B2BCPostmanTest\",\r\n    \"date\": \"2021-08-15\",\r\n    \"cpf\": \"12345678910\",\r\n    \"totalValue\": 500.00\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/resellers/123.456.789-10/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers",
+						"123.456.789-10",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order - Do not allow if CPFs from request don't match",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Order - Do not allow if CPFs from request don't match\", function () {\r",
+							"  pm.response.to.have.status(422)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.result).to.eql(\"CPFs from Request Body and URL don't match\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"code\": \"A1B2BCPostmanTest\",\r\n    \"date\": \"2021-08-15\",\r\n    \"cpf\": \"123.456.789-10\",\r\n    \"totalValue\": 500.00\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/resellers/12345678911/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers",
+						"12345678911",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order for Auto Approved Reseller",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Order for Auto Approved Reseller\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.id).to.not.null\r",
+							"  pm.expect(responseJson.code).to.eql(\"A1B2BCPostmanTest\")\r",
+							"  pm.expect(Date(responseJson.date)).to.eql(Date(\"2021-08-15\"))\r",
+							"  pm.expect(responseJson.cpf).to.eql(\"77023697012\")\r",
+							"  pm.expect(responseJson.totalValue).to.eql(500.00)\r",
+							"  pm.expect(responseJson.state).to.eql('Aprovado')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"code\": \"A1B2BCPostmanTest\",\r\n    \"date\": \"2021-08-15\",\r\n    \"cpf\": \"770.236.970-12\",\r\n    \"totalValue\": 500.00\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/resellers/770.236.970-12/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers",
+						"770.236.970-12",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Postman Tests Cleanup",
 			"event": [
 				{
 					"listen": "test",

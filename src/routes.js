@@ -1,6 +1,7 @@
 const express = require('express')
 const cashbackCalculator = require('./cashbackCalculator')
 const AuthenticationController = require('./controllers/AuthenticationController')
+const OrderController = require('./controllers/OrderController')
 const PostmanTestsCleanupController = require('./controllers/PostmanTestsCleanupController')
 const ResellerController = require('./controllers/ResellerController')
 
@@ -18,6 +19,7 @@ routes.get('/calculateCashback/:totalValue', (req, res) => {
 })
 
 routes.post('/resellers', ResellerController.store)
+routes.post('/resellers/:resellerCpf/orders', OrderController.store)
 routes.post('/login', AuthenticationController.login)
 routes.get('/postmanTestsCleanup', PostmanTestsCleanupController.cleanup)
 
