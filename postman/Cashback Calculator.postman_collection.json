@@ -1,0 +1,117 @@
+{
+	"info": {
+		"_postman_id": "998c563d-5831-4a06-8623-ab2e65250ea6",
+		"name": "Cashback Calculator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CalculateCashback/500",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"10% cashback for 500\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.cashbackPercentage).to.eql(10)\r",
+							"  pm.expect(responseJson.cashbackValue).to.eql(50)\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/calculateCashback/500",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"calculateCashback",
+						"500"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CalculateCashback/1000",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"15% cashback for 1000\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.cashbackPercentage).to.eql(15)\r",
+							"  pm.expect(responseJson.cashbackValue).to.eql(150)\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/calculateCashback/1000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"calculateCashback",
+						"1000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CalculateCashback/1500",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"20% cashback for 1500\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.cashbackPercentage).to.eql(20)\r",
+							"  pm.expect(responseJson.cashbackValue).to.eql(300)\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/calculateCashback/1500",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"calculateCashback",
+						"1500"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
