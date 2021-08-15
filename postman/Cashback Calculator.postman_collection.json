@@ -6,114 +6,6 @@
 	},
 	"item": [
 		{
-			"name": "CalculateCashback/500",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"10% cashback for 500\", function () {\r",
-							"  pm.response.to.have.status(200)\r",
-							"  const responseJson = pm.response.json()\r",
-							"  pm.expect(responseJson.cashbackPercentage).to.eql(10)\r",
-							"  pm.expect(responseJson.cashbackValue).to.eql(50)\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/calculateCashback/500",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"calculateCashback",
-						"500"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "CalculateCashback/1000",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"15% cashback for 1000\", function () {\r",
-							"  pm.response.to.have.status(200)\r",
-							"  const responseJson = pm.response.json()\r",
-							"  pm.expect(responseJson.cashbackPercentage).to.eql(15)\r",
-							"  pm.expect(responseJson.cashbackValue).to.eql(150)\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/calculateCashback/1000",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"calculateCashback",
-						"1000"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "CalculateCashback/1500",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"20% cashback for 1500\", function () {\r",
-							"  pm.response.to.have.status(200)\r",
-							"  const responseJson = pm.response.json()\r",
-							"  pm.expect(responseJson.cashbackPercentage).to.eql(20)\r",
-							"  pm.expect(responseJson.cashbackValue).to.eql(300)\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/calculateCashback/1500",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"calculateCashback",
-						"1500"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Create Reseller",
 			"event": [
 				{
@@ -661,6 +553,497 @@
 					"path": [
 						"resellers",
 						"770.236.970-12",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order - Do not allow if CPF does not belong to an existing Reseller",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Order - Do not allow if CPFs from request don't match\", function () {\r",
+							"  pm.response.to.have.status(404)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.result).to.eql(\"The CPF informed does not belong to a registered Reseller\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"code\": \"A1B2BCPostmanTest\",\r\n    \"date\": \"2021-08-15\",\r\n    \"cpf\": \"52345678911\",\r\n    \"totalValue\": 500.00\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/resellers/52345678911/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers",
+						"52345678911",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Reseller for Cashback Tier Validations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Reseller\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.id).to.not.null\r",
+							"  pm.expect(responseJson.name).to.eql(\"Cashback Tiers PostmanTest\")\r",
+							"  pm.expect(responseJson.cpf).to.eql(\"55555555555\")\r",
+							"  pm.expect(responseJson.email).to.eql(\"cashback.tiers@email.com\")\r",
+							"  pm.expect(responseJson.password).to.not.eql(\"123456\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Cashback Tiers PostmanTest\",\r\n    \"cpf\": \"555.555.555-55\",\r\n    \"email\": \"cashback.tiers@email.com\",\r\n    \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/resellers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order for existing Reseller - 999.80",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Order for existing Reseller\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.id).to.not.null\r",
+							"  pm.expect(responseJson.code).to.eql(\"A1B2BCPostmanTest\")\r",
+							"  pm.expect(Date(responseJson.date)).to.eql(Date(\"2021-08-15\"))\r",
+							"  pm.expect(responseJson.cpf).to.eql(\"55555555555\")\r",
+							"  pm.expect(responseJson.totalValue).to.eql(999.80)\r",
+							"  pm.expect(responseJson.state).to.eql('Em Validação')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"code\": \"A1B2BCPostmanTest\",\r\n    \"date\": \"2021-08-15\",\r\n    \"cpf\": \"55555555555\",\r\n    \"totalValue\": 999.80\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/resellers/55555555555/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers",
+						"55555555555",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order for existing Reseller - 999.99",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Order for existing Reseller\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.id).to.not.null\r",
+							"  pm.expect(responseJson.code).to.eql(\"A1B2BCPostmanTest\")\r",
+							"  pm.expect(Date(responseJson.date)).to.eql(Date(\"2021-08-15\"))\r",
+							"  pm.expect(responseJson.cpf).to.eql(\"55555555555\")\r",
+							"  pm.expect(responseJson.totalValue).to.eql(999.99)\r",
+							"  pm.expect(responseJson.state).to.eql('Em Validação')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"code\": \"A1B2BCPostmanTest\",\r\n    \"date\": \"2021-08-15\",\r\n    \"cpf\": \"55555555555\",\r\n    \"totalValue\": 999.99\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/resellers/55555555555/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers",
+						"55555555555",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order for existing Reseller - 1000",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Order for existing Reseller\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.id).to.not.null\r",
+							"  pm.expect(responseJson.code).to.eql(\"A1B2BCPostmanTest\")\r",
+							"  pm.expect(Date(responseJson.date)).to.eql(Date(\"2021-08-15\"))\r",
+							"  pm.expect(responseJson.cpf).to.eql(\"55555555555\")\r",
+							"  pm.expect(responseJson.totalValue).to.eql(1000.00)\r",
+							"  pm.expect(responseJson.state).to.eql('Em Validação')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"code\": \"A1B2BCPostmanTest\",\r\n    \"date\": \"2021-08-15\",\r\n    \"cpf\": \"55555555555\",\r\n    \"totalValue\": 1000.00\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/resellers/55555555555/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers",
+						"55555555555",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order for existing Reseller - 1499.99",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Order for existing Reseller\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.id).to.not.null\r",
+							"  pm.expect(responseJson.code).to.eql(\"A1B2BCPostmanTest\")\r",
+							"  pm.expect(Date(responseJson.date)).to.eql(Date(\"2021-08-15\"))\r",
+							"  pm.expect(responseJson.cpf).to.eql(\"55555555555\")\r",
+							"  pm.expect(responseJson.totalValue).to.eql(1499.99)\r",
+							"  pm.expect(responseJson.state).to.eql('Em Validação')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"code\": \"A1B2BCPostmanTest\",\r\n    \"date\": \"2021-08-15\",\r\n    \"cpf\": \"55555555555\",\r\n    \"totalValue\": 1499.99\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/resellers/55555555555/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers",
+						"55555555555",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order for existing Reseller - 1500",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Order for existing Reseller\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.id).to.not.null\r",
+							"  pm.expect(responseJson.code).to.eql(\"A1B2BCPostmanTest\")\r",
+							"  pm.expect(Date(responseJson.date)).to.eql(Date(\"2021-08-15\"))\r",
+							"  pm.expect(responseJson.cpf).to.eql(\"55555555555\")\r",
+							"  pm.expect(responseJson.totalValue).to.eql(1500.00)\r",
+							"  pm.expect(responseJson.state).to.eql('Em Validação')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"code\": \"A1B2BCPostmanTest\",\r\n    \"date\": \"2021-08-15\",\r\n    \"cpf\": \"55555555555\",\r\n    \"totalValue\": 1500.00\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/resellers/55555555555/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers",
+						"55555555555",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order for existing Reseller - 10000",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Order for existing Reseller\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.id).to.not.null\r",
+							"  pm.expect(responseJson.code).to.eql(\"A1B2BCPostmanTest\")\r",
+							"  pm.expect(Date(responseJson.date)).to.eql(Date(\"2021-08-15\"))\r",
+							"  pm.expect(responseJson.cpf).to.eql(\"55555555555\")\r",
+							"  pm.expect(responseJson.totalValue).to.eql(10000.00)\r",
+							"  pm.expect(responseJson.state).to.eql('Em Validação')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"code\": \"A1B2BCPostmanTest\",\r\n    \"date\": \"2021-08-15\",\r\n    \"cpf\": \"55555555555\",\r\n    \"totalValue\": 10000.00\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/resellers/55555555555/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers",
+						"55555555555",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Orders - Do not allow if CPF does not belong to an existing Reseller",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Order - Do not allow if CPFs from request don't match\", function () {\r",
+							"  pm.response.to.have.status(404)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.result).to.eql(\"The CPF informed does not belong to a registered Reseller\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/resellers/52345678911/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers",
+						"52345678911",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Orders for exising Reseller",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get Orders for exising Reseller\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.length).to.eql(6)\r",
+							"  pm.test(\"First cashback tier\"), function() {\r",
+							"      pm.expect(responseJson[0].totalValue).to.eql(999.80)\r",
+							"      pm.expect(responseJson[0].cashbackPercentage).to.eql(10)\r",
+							"      pm.expect(responseJson[0].cashbackValue).to.eql(99.98)\r",
+							"\r",
+							"      pm.expect(responseJson[1].totalValue).to.eql(999.99)\r",
+							"      pm.expect(responseJson[1].cashbackPercentage).to.eql(10)\r",
+							"      pm.expect(responseJson[1].cashbackValue).to.eql(100)\r",
+							"  }\r",
+							"  pm.test(\"Second cashback tier\"), function() {\r",
+							"      pm.expect(responseJson[2].totalValue).to.eql(1000)\r",
+							"      pm.expect(responseJson[2].cashbackPercentage).to.eql(15)\r",
+							"      pm.expect(responseJson[2].cashbackValue).to.eql(150)\r",
+							"\r",
+							"      pm.expect(responseJson[3].totalValue).to.eql(1499.99)\r",
+							"      pm.expect(responseJson[3].cashbackPercentage).to.eql(15)\r",
+							"      pm.expect(responseJson[3].cashbackValue).to.eql(224.99)\r",
+							"  }\r",
+							"  pm.test(\"Third cashback tier\"), function() {\r",
+							"      pm.expect(responseJson[0].totalValue).to.eql(1500)\r",
+							"      pm.expect(responseJson[0].cashbackPercentage).to.eql(20)\r",
+							"      pm.expect(responseJson[0].cashbackValue).to.eql(300)\r",
+							"\r",
+							"      pm.expect(responseJson[0].totalValue).to.eql(10000)\r",
+							"      pm.expect(responseJson[0].cashbackPercentage).to.eql(20)\r",
+							"      pm.expect(responseJson[0].cashbackValue).to.eql(2000)\r",
+							"  }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/resellers/55555555555/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers",
+						"55555555555",
 						"orders"
 					]
 				}
