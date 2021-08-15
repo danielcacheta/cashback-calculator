@@ -988,7 +988,7 @@
 			"response": []
 		},
 		{
-			"name": "Get Orders for exising Reseller",
+			"name": "Get Orders from each tier for exising Reseller",
 			"event": [
 				{
 					"listen": "test",
@@ -1045,6 +1045,78 @@
 						"resellers",
 						"55555555555",
 						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check Cashback Balance for existing Reseller",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Cashback Balance for Existing Reseller\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.cashbackBalance).to.not.undefined\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/resellers/123.456.789-10/cashbackBalance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers",
+						"123.456.789-10",
+						"cashbackBalance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check Cashback Credit - Do not allow if CPF does not belong to an existing Reseller",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Cashback Balance for Not Registered Reseller\", function () {\r",
+							"  pm.response.to.have.status(404)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.result).to.eql(\"The CPF informed does not belong to a registered Reseller\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/resellers/52345678911/cashbackBalance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers",
+						"52345678911",
+						"cashbackBalance"
 					]
 				}
 			},
