@@ -112,6 +112,317 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "CreateReseller",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Reseller\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.id).to.not.null\r",
+							"  pm.expect(responseJson.name).to.eql(\"Adam Smith PostmanTest\")\r",
+							"  pm.expect(responseJson.cpf).to.eql(\"12345678910\")\r",
+							"  pm.expect(responseJson.email).to.eql(\"adam.smith@email.com\")\r",
+							"  pm.expect(responseJson.password).to.not.eql(\"123456\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Adam Smith PostmanTest\",\r\n    \"cpf\": \"123.456.789-10\",\r\n    \"email\": \"adam.smith@email.com\",\r\n    \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/resellers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DoNotAllowToCreateResellerWithDuplicateCPF",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Reseller\", function () {\r",
+							"  pm.response.to.have.status(409)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.id).to.not.null\r",
+							"  pm.expect(responseJson.result).to.eql(\"The CPF informed already exists\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Adam Smith PostmanTest\",\r\n    \"cpf\": \"123.456.789-10\",\r\n    \"email\": \"adam.smith.new@email.com\",\r\n    \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/resellers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DoNotAllowToCreateResellerWithDuplicateEmail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Do not allow to create Reseller\", function () {\r",
+							"  pm.response.to.have.status(409)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.id).to.not.null\r",
+							"  pm.expect(responseJson.result).to.eql(\"The e-mail informed already exists\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Adam Smith PostmanTest\",\r\n    \"cpf\": \"123.456.789-11\",\r\n    \"email\": \"adam.smith@email.com\",\r\n    \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/resellers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateNewReseller",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create New Reseller\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.id).to.not.null\r",
+							"  pm.expect(responseJson.name).to.eql(\"Susan Smith PostmanTest\")\r",
+							"  pm.expect(responseJson.cpf).to.eql(\"12345678810\")\r",
+							"  pm.expect(responseJson.email).to.eql(\"susan.smith@email.com\")\r",
+							"  pm.expect(responseJson.password).to.not.eql(\"password\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Susan Smith PostmanTest\",\r\n    \"cpf\": \"123.456.788-10\",\r\n    \"email\": \"susan.smith@email.com\",\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/resellers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"resellers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Valid Login and Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Reseller\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.result).to.eql(\"User Authenticated\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"adam.smith@email.com\",\r\n    \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Reseller\", function () {\r",
+							"  pm.response.to.have.status(401)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.result).to.eql(\"Unauthorized\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"adam.smith@email.com\",\r\n    \"password\": \"1234567\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Reseller\", function () {\r",
+							"  pm.response.to.have.status(401)\r",
+							"  const responseJson = pm.response.json()\r",
+							"  pm.expect(responseJson.result).to.eql(\"Unauthorized\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"adam.smith2@email.com\",\r\n    \"password\": \"1234567\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
